@@ -11,14 +11,6 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     
-     public function counts($user) {
-        $count_microposts = $user->microposts()->count();
-
-        return [
-            'count_microposts' => $count_microposts,
-        ];
-    }
-    
       public function counts($user) {
         $count_microposts = $user->microposts()->count();
         $count_followings = $user->followings()->count();
