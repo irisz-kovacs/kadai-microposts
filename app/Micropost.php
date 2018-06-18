@@ -14,4 +14,5 @@ class Micropost extends Model
         return $this->belongsTo(User::class);
     
 }
+
 }

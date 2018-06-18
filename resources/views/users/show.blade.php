@@ -18,6 +18,7 @@
                 <li role="presentation" class="{{ Request::is('users/' . $user->id) ? 'active' : '' }}"><a href="{{ route('users.show', ['id' => $user->id]) }}">Timeline <span class="badge">{{ $count_microposts }}</span></a></li>
                 <li role="presentation" class="{{ Request::is('users/*/followings') ? 'active' : '' }}"><a href="{{ route('users.followings', ['id' => $user->id]) }}">Following <span class="badge">{{ $count_followings }}</span></a></li>
                 <li role="presentation" class="{{ Request::is('users/*/followers') ? 'active' : '' }}"><a href="{{ route('users.followers', ['id' => $user->id]) }}">Followers <span class="badge">{{ $count_followers }}</span></a></li>
+                <li role="presentation" class="{{ Request::is('users/*/favouriting') ? 'active' : '' }}"><a href="{{ route('users.favourites', ['id' => $user->id]) }}">Favourites <span class="badge">{{ $count_favourites }}</span></a></li>            
             </ul>
             @if (Auth::id() == $user->id)
                   {!! Form::open(['route' => 'microposts.store']) !!}
@@ -29,6 +30,7 @@
             @endif
             @if (count($microposts) > 0)
                 @include('microposts.microposts', ['microposts' => $microposts])
+                @include('user_favourite.favourite_button', ['user' => $user])
             @endif
         </div>
     </div>

@@ -31,6 +31,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('followings', 'UsersController@followings')->name('users.followings');
     Route::get('followers', 'UsersController@followers')->name('users.followers');
     });
+    Route::group(['prefix' => 'users/{id}'], function () {
+        Route::post('favouriting', 'UserFavouriteController@store')->name('user.favouriting');
+        Route::delete('unfavourite', 'UserFavouriteController@destroy')->name('user.unfavourite');
+        Route::get('favourite', 'UserFavouriteController@followings')->name('users.favourite');
+    });
 
     Route::resource('microposts', 'MicropostsController', ['only' => ['store', 'destroy']]);
 });
