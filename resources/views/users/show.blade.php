@@ -30,7 +30,6 @@
             @endif
             @if (count($microposts) > 0)
                 @include('microposts.microposts', ['microposts' => $microposts])
-                @include('user_favourite.favourite_button', ['user' => $user])
             @endif
         </div>
     </div>

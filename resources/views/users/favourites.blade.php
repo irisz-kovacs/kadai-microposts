@@ -11,7 +11,6 @@
                     <img class="media-object img-rounded img-responsive" src="{{ Gravatar::src($user->email, 500) }}" alt="">
                 </div>
             </div>
-            @include('user_favourite.favourite_button', ['user' => $user])
         </aside>
         <div class="col-xs-8">
             <ul class="nav nav-tabs nav-justified">
@@ -19,9 +18,10 @@
                 <li role="presentation" class="{{ Request::is('users/*/followings') ? 'active' : '' }}"><a href="{{ route('users.followings', ['id' => $user->id]) }}">Followings <span class="badge">{{ $count_followings }}</span></a></li>
                 <li role="presentation" class="{{ Request::is('users/*/followers') ? 'active' : '' }}"><a href="{{ route('users.followers', ['id' => $user->id]) }}">Followers <span class="badge">{{ $count_followers }}</span></a></li>
                 <li role="presentation" class="{{ Request::is('users/*/favouriting') ? 'active' : '' }}"><a href="{{ route('users.favourites', ['id' => $user->id]) }}">Favourites <span class="badge">{{ $count_favourites }}</span></a></li>
-                        
             </ul>
-            @include('users.users', ['users' => $users])
-        </div>
+                @if (count($microposts) > 0)
+                    @include('microposts.microposts', ['microposts' => $microposts])
+                @endif
+         </div>
     </div>
 @endsection

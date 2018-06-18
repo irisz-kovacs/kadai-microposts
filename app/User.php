@@ -91,7 +91,7 @@ public function unfollow($userId)
     
     public function favourite()
     {
-        return $this->belongsToMany(User::class, 'user_favourite', 'user_id', 'favourite_id')->withTimestamps();
+        return $this->belongsToMany(Micropost::class, 'user_favourite', 'user_id', 'favourite_id')->withTimestamps();
     }
     
     public function favouriting($favouriteId)
@@ -100,6 +100,15 @@ public function unfollow($userId)
     $exist = $this->is_favouriting($favouriteId);
     // confirming that it is not you
     $its_me = $this->id == $favouriteId;
+    
+        if ($exist) {
+        // do nothing if already following
+        return false;
+    } else {
+        // follow if not following
+        $this->favourite()->attach($favouriteId);
+        return true;
+    }
 
 }
 
@@ -109,10 +118,26 @@ public function unfollow($userId)
     $exist = $this->is_favouriting($favouriteId);
     // confirming that it is not you
     $its_me = $this->id == $favouriteId;
+    
+     if ($exist) {
+        // stop following if following
+        $this->favourite()->detach($favouriteId);
+        return true;
+    } else {
+        // do nothing if not following
+        return false;
+    }
 }
 
 
     public function is_favouriting($favouriteId) {
     return $this->favourite()->where('favourite_id', $favouriteId)->exists();
 }
+
+    public function list_favourites()
+    {
+        $favourite_ids = $this->favouriting()-> pluck('micropost.favourite_id')->toArray();
+        $favourite_ids[] = $this->id;
+        return Micropost::whereIn('favourite_id', $favourite_ids);
+    }
 }
